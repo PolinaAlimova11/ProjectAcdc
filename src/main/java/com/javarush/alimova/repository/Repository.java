@@ -1,7 +1,5 @@
 package com.javarush.alimova.repository;
 
-import com.javarush.alimova.dto.QuestDto;
-
 import java.util.List;
 
 public interface Repository<T> {
@@ -13,5 +11,7 @@ public interface Repository<T> {
 
     T update(T value);
 
-    T get(T value);
+    T get(Long index);
+
+    boolean isEmpty();
 }

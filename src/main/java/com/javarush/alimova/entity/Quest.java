@@ -1,6 +1,7 @@
-package com.javarush.alimova.dto;
+package com.javarush.alimova.entity;
 
 
+import com.javarush.alimova.dto.PointDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class QuestDto {
+public class Quest {
 
     Long id;
     String title;

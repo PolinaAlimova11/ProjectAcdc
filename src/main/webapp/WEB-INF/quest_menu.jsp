@@ -3,6 +3,18 @@
 <c:import url="parts/header.jsp"/>
 <div class="container">
     <p>Тут будет квест</p>
+        <form action="game" method="get">
+            <label> Доступные квесты:
+                <select name="questId" id="questId" class="form-control">
+                <c:forEach var = "quest" items = "${requestScope.quests}">
+                    <option value = "${quest.id}">${quest.title}</option>
+                </c:forEach>
+                </select>
+            </label>
+            <input type="submit" value="Выбрать" />
+        </form>
+
+
 <%--    <h5>${requestScope.quest.name}</h5>--%>
 <%--    <c:forEach var="question" items="${requestScope.quest.questions}">--%>
 <%--        <a id="bookmark${question.id}"></a>--%>

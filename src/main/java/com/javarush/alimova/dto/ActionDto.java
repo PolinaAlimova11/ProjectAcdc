@@ -16,6 +16,6 @@ public class ActionDto {
 
     List<String> listAction;
     StatusPoint status;
-    Long idPoint;
+    Long idNextPoint;
 
 }
