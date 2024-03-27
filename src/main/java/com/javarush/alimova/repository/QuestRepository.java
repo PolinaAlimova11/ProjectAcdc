@@ -24,7 +24,8 @@ public class QuestRepository implements Repository<Quest>{
     public Quest create(Quest value) {
         Long index = indexRepo.getAndIncrement();
         value.setId(index);
-        return questRepo.put(index, value);
+        questRepo.put(index, value);
+        return value;
     }
 
     @Override

@@ -28,7 +28,6 @@ public class QuestMenuServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        questService.initBaseQuest();
         Collection<Quest> quests = questService.getAll();
         String idString = req.getQueryString();
         Long id = (Long)req.getAttribute("questId");

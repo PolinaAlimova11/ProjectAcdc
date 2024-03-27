@@ -1,6 +1,7 @@
 package com.javarush.alimova.controller;
 
 import com.javarush.alimova.configure.Creator;
+import com.javarush.alimova.configure.StatusPoint;
 import com.javarush.alimova.dto.ActionDto;
 import com.javarush.alimova.dto.PointDto;
 import com.javarush.alimova.entity.Quest;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 @WebServlet("/game")
 public class QuestGameServlet extends HttpServlet {
@@ -37,6 +39,8 @@ public class QuestGameServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("idQuest") != null) {
+            //это если только начало квеста?
+            //лучше сделать начало квеста через поинт
             Long idQuest = Long.valueOf(req.getParameter("idQuest"));
             Quest currentQuest = questService.getQuest(idQuest);
             Map<Long, PointDto> pointDtoMap = currentQuest.getListPoint();
@@ -44,12 +48,19 @@ public class QuestGameServlet extends HttpServlet {
             //тут проверку, какой point доставать (вот это можно спрятать в сервис)
             PointDto currentPoint = pointDtoMap.get(currentQuest.getStartIdPoint());
 
+            //нужно протягивать наименование и дальше. Может, помещать в сессию? как текущий квест
             req.setAttribute("point", currentPoint);
             req.setAttribute("id", idQuest);
             req.setAttribute("title", currentQuest.getTitle());
         }
-        req.setAttribute("action", req.getParameter("action"));
-
+        if (req.getParameter("actionId") != null) {
+            Long idAction = Long.valueOf(req.getParameter("actionId"));
+            ActionDto currentAction = questService.getAction(idAction);
+            req.setAttribute("action", currentAction);
+            req.setAttribute("loss", StatusPoint.LOSS);
+            req.setAttribute("win", StatusPoint.WIN);
+            req.setAttribute("active", StatusPoint.ACTIVE);
+        }
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/quest.jsp");
         requestDispatcher.forward(req, resp);

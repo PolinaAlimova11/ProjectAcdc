@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 public class ActionDto {
 
+    Long id;
     List<String> listAction;
     StatusPoint status;
     Long idNextPoint;
