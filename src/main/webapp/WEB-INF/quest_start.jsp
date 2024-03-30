@@ -14,15 +14,17 @@
 </head>
 <body>
 <div class="container">
-    <p>${requestScope.title}</p>
-    <p>${requestScope.discription}</p>
+    <p>${sessionScope.title}</p>
+    <p>${sessionScope.description}</p>
     <br>
     <form action="game" method="post">
-        <button type="submit" name="idQuest" value="${requestScope.id}">Начать</button>
+        <button type="submit" name="pointId" value="${requestScope.pointId}">Начать</button>
     </form>
-
-
-<%--тут должна быть кнопка для начала или просто весь квест--%>
+    <br>
+    <br>
+    <form method="get" action="/">
+        <input type="submit" value="На главный экран"/>
+    </form>
 </div>
 </body>
 </html>

@@ -3,14 +3,14 @@
 <c:import url="parts/header.jsp"/>
 <html>
 <head>
-    <title>Квест ${requestScope.title}</title>
+    <title>Квест ${sessionScope.title}</title>
 </head>
 <body>
 <div class="container">
     <c:set var="point" value="${requestScope.point}"/>
     <c:set var="action" value="${requestScope.action}"/>
 
-    <h3>${requestScope.title}</h3>
+    <h3>${sessionScope.title}</h3>
 
     <c:if test="${action==null}">
         <p>${point.getQuestion()}</p>
@@ -35,16 +35,26 @@
             <p>${currentAction}</p>
         </c:forEach>
         <c:if test="${action.getStatus() == requestScope.loss}">
-            <p>Вы проиграли (тут кнопка на главное меню)</p>
+            <h4>Вы проиграли</h4>
         </c:if>
         <c:if test="${action.getStatus() == requestScope.win}">
-            <p>Вы выиграли (тут кнопка на главное меню)</p>
+            <h4>Вы выиграли</h4>
         </c:if>
         <c:if test="${action.getStatus() == requestScope.active}">
-            <p>Продолжить (форма с кнопкой)</p>
+            <form method="post" action="game">
+                <button type="submit" name="pointId" value="${requestScope.action.getIdNextPoint()}">
+                    Продолжить
+                </button>
+            </form>
         </c:if>
         <br>
     </c:if>
+
+    <br>
+    <br>
+    <form method="get" action="/">
+        <input type="submit" value="На главный экран"/>
+    </form>
 
 </div>
 </body>
