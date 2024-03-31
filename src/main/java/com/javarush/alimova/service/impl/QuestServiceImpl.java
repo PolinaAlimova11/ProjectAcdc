@@ -163,7 +163,6 @@ public class QuestServiceImpl implements QuestService {
                         .title(title)
                 .build());
 
-        //ещё один пустой квест
         questRepository.create(Quest.builder()
                         .description("пустой квест")
                         .title("пустой квест")

@@ -3,7 +3,6 @@ package com.javarush.alimova.repository;
 import com.javarush.alimova.entity.Quest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;

@@ -24,28 +24,6 @@ public class QuestGameServlet extends HttpServlet {
 
     private final QuestService questService = Creator.getComponent(QuestServiceImpl.class);
 
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//
-//        HttpSession session = req.getSession();
-//
-//        Long idQuest = Long.valueOf(req.getParameter("questId"));
-//        Quest quest = questService.getQuest(idQuest);
-//
-//        session.setAttribute("currentQuest", quest);
-//        session.setAttribute("title", quest.getTitle());
-//        session.setAttribute("description", quest.getDescription());
-//
-//        Map<Long, StatisticQuest> statistic = (Map<Long, StatisticQuest>) session.getAttribute("statistic");
-//        statistic.put(idQuest,
-//                new StatisticQuest(quest, 0, new ArrayList<>()));
-//
-//        req.setAttribute("pointId", quest.getStartIdPoint());
-//        RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/quest_start.jsp");
-//        requestDispatcher.forward(req, resp);
-//
-//    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
