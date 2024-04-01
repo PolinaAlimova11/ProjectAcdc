@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -21,6 +23,7 @@ import java.util.*;
 public class QuestMenuServlet extends HttpServlet {
 
     private final QuestService questService = Creator.getComponent(QuestServiceImpl.class);
+    public static final Logger log = LoggerFactory.getLogger(QuestServiceImpl.class);
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -49,6 +52,8 @@ public class QuestMenuServlet extends HttpServlet {
         session.setAttribute("currentQuest", quest);
         session.setAttribute("title", quest.getTitle());
         session.setAttribute("description", quest.getDescription());
+
+        log.info(String.format("Choose quest %s (id: %d)", quest.getTitle(), quest.getId()));
 
         Map<Long, StatisticQuest> statistic = (Map<Long, StatisticQuest>) session.getAttribute("statistic");
         if(Objects.isNull(statistic.get(idQuest))) {

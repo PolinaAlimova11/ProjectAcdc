@@ -1,6 +1,7 @@
 package com.javarush.alimova.controller;
 
 import com.javarush.alimova.dto.StatisticQuest;
+import com.javarush.alimova.service.impl.QuestServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,6 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,6 +18,8 @@ import java.util.Map;
 
 @WebServlet("/")
 public class IndexServlet extends HttpServlet {
+
+    public static final Logger log = LoggerFactory.getLogger(QuestServiceImpl.class);
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/index.jsp");
@@ -34,6 +39,8 @@ public class IndexServlet extends HttpServlet {
             currentSession.setAttribute("userName", name);
             Map<Long, StatisticQuest> statistic = new HashMap<>();
             currentSession.setAttribute("statistic", statistic);
+
+            log.info(String.format("Create user %s", name));
         }
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/index.jsp");

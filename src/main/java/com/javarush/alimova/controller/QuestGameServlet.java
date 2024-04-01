@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
@@ -23,6 +25,7 @@ import java.util.Map;
 public class QuestGameServlet extends HttpServlet {
 
     private final QuestService questService = Creator.getComponent(QuestServiceImpl.class);
+    public static final Logger log = LoggerFactory.getLogger(QuestServiceImpl.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,6 +57,7 @@ public class QuestGameServlet extends HttpServlet {
             Map<Long, StatisticQuest> statistic = (Map<Long, StatisticQuest>) session.getAttribute("statistic");
             StatisticQuest statisticQuest = statistic.get(currentQuest.getId());
             statisticQuest.setResultGame(currentAction.getStatus().name());
+            log.info(String.format("Quest finished with status %s", currentAction.getStatus().name()));
         }
     }
 
@@ -63,5 +67,7 @@ public class QuestGameServlet extends HttpServlet {
         PointDto currentPoint = pointDtoMap.get(pointId);
 
         req.setAttribute("point", currentPoint);
+
+        log.info(String.format("Choose point %s (id %d)", currentPoint.getQuestion(), pointId));
     }
 }
