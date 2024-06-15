@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="23-26-add-quest" author="alimova">
+        <insert tableName="quest">
+            <column name="id">1</column>
+            <column name="title">Похищение инопланетянами</column>
+            <column name="description">Ты просыпаешься ночью без памяти. На тебя смотрят неизвестные существа.</column>
+        </insert>
+
+    </changeSet>
+
+    <changeSet id="23-30-add-point-1" author="alimova">
+        <insert tableName="point">
+            <column name="id">1</column>
+            <column name="question">Ты потерял память. Принять вызов НЛО?</column>
+            <column name="quest_id">1</column>
+        </insert>
+
+        <insert tableName="action">
+            <column name="id">1</column>
+            <column name="status_point">LOSS</column>
+            <column name="point_id">1</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">1</column>
+            <column name="serial_number">1</column>
+            <column name="action">Отклонить вызов</column>
+            <column name="action_id">1</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">2</column>
+            <column name="serial_number">2</column>
+            <column name="action">Ты отклонил вызов</column>
+            <column name="action_id">1</column>
+        </insert>
+
+        <insert tableName="action">
+            <column name="id">2</column>
+            <column name="status_point">ACTIVE</column>
+            <column name="point_id">1</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">3</column>
+            <column name="serial_number">1</column>
+            <column name="action">Принять вызов</column>
+            <column name="action_id">2</column>
+        </insert>
+    </changeSet>
+    
+    <changeSet id="23-39-add-first-point-quest" author="alimova">
+        <insert tableName="quest_first_point">
+            <column name="quest_id">1</column>
+            <column name="point_id">1</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="23-40-add-point-2" author="alimova">
+        <insert tableName="point">
+            <column name="id">2</column>
+            <column name="question">Ты принял вызов. Поднимаешься на мостик к капитану?</column>
+            <column name="quest_id">1</column>
+        </insert>
+
+        <insert tableName="action">
+            <column name="id">3</column>
+            <column name="status_point">LOSS</column>
+            <column name="point_id">2</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">4</column>
+            <column name="serial_number">1</column>
+            <column name="action">Отказаться подниматься на мостик</column>
+            <column name="action_id">3</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">5</column>
+            <column name="serial_number">2</column>
+            <column name="action">Ты не пошёл на переговоры. Поражение</column>
+            <column name="action_id">3</column>
+        </insert>
+
+        <insert tableName="action">
+            <column name="id">4</column>
+            <column name="status_point">ACTIVE</column>
+            <column name="point_id">2</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">6</column>
+            <column name="serial_number">1</column>
+            <column name="action">Подняться на мостик</column>
+            <column name="action_id">4</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="23-45-add-next-point-to-action-2" author="alimova">
+        <insert tableName="point_action">
+            <column name="action_id">2</column>
+            <column name="next_point_id">2</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="23-47-add-point-3" author="alimova">
+        <insert tableName="point">
+            <column name="id">3</column>
+            <column name="question">Ты поднялся на мостик. Кто ты, воин?</column>
+            <column name="quest_id">1</column>
+        </insert>
+
+        <insert tableName="action">
+            <column name="id">5</column>
+            <column name="status_point">LOSS</column>
+            <column name="point_id">3</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">7</column>
+            <column name="serial_number">1</column>
+            <column name="action">Солгать о себе</column>
+            <column name="action_id">5</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">8</column>
+            <column name="serial_number">2</column>
+            <column name="action">Твою ложь разоблачили. Поражение</column>
+            <column name="action_id">5</column>
+        </insert>
+
+        <insert tableName="action">
+            <column name="id">6</column>
+            <column name="status_point">WIN</column>
+            <column name="point_id">3</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">9</column>
+            <column name="serial_number">1</column>
+            <column name="action">Рассказать правду о себе.</column>
+            <column name="action_id">6</column>
+        </insert>
+
+        <insert tableName="step_action">
+            <column name="id">10</column>
+            <column name="serial_number">2</column>
+            <column name="action">Тебя вернули домой. Победа.</column>
+            <column name="action_id">6</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="23-51-add-next-point-to-action-4" author="alimova">
+        <insert tableName="point_action">
+            <column name="action_id">4</column>
+            <column name="next_point_id">3</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
