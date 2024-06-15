@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="23-07-add-point-action-table" author="alimova">
+        <createTable tableName="point_action">
+            <column name="action_id" type="BIGINT"/>
+            <column name="next_point_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="23-08-add-foreign-key-point-action-table" author="alimova">
+        <addForeignKeyConstraint baseTableName="point_action"
+                                 baseColumnNames="next_point_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedTableName="point"
+                                 referencedColumnNames="id"
+                                 constraintName="next_point_fkey"/>
+        <addForeignKeyConstraint baseTableName="point_action"
+                                 baseColumnNames="action_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedTableName="action"
+                                 referencedColumnNames="id"
+                                 constraintName="action_point_fkey"/>
+    </changeSet>
+
+</databaseChangeLog>

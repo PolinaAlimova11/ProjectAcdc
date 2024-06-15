@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="23-10-add-quest-first-point-table" author="alimova">
+        <createTable tableName="quest_first_point">
+            <column name="quest_id" type="BIGINT"/>
+            <column name="point_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="23-11-add-foreign-key-quest-first-point-table" author="alimova">
+        <addForeignKeyConstraint baseTableName="quest_first_point"
+                                 baseColumnNames="point_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedTableName="point"
+                                 referencedColumnNames="id"
+                                 constraintName="first_point_fkey"/>
+        <addForeignKeyConstraint baseTableName="quest_first_point"
+                                 baseColumnNames="quest_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedTableName="quest"
+                                 referencedColumnNames="id"
+                                 constraintName="quest_first_point_fkey"/>
+    </changeSet>
+
+</databaseChangeLog>
