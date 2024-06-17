@@ -2,7 +2,7 @@ package com.javarush.alimova.controller;
 
 import com.javarush.alimova.configure.Creator;
 import com.javarush.alimova.dto.StatisticQuest;
-import com.javarush.alimova.entity.Quest;
+import com.javarush.alimova.dto.QuestDto;
 import com.javarush.alimova.service.QuestService;
 import com.javarush.alimova.service.impl.QuestServiceImpl;
 import jakarta.servlet.RequestDispatcher;
@@ -25,17 +25,13 @@ public class QuestMenuServlet extends HttpServlet {
     private final QuestService questService = Creator.getComponent(QuestServiceImpl.class);
     public static final Logger log = LoggerFactory.getLogger(QuestServiceImpl.class);
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        questService.initBaseQuest();
-        super.init(config);
-    }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession currentSession = req.getSession();
+//        HttpSession currentSession = req.getSession();
 
-        Collection<Quest> quests = questService.getAll();
+        Collection<QuestDto> quests = questService.getAll();
         req.setAttribute("quests", quests);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/quest_menu.jsp");
         requestDispatcher.forward(req, resp);
@@ -47,7 +43,7 @@ public class QuestMenuServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
         Long idQuest = Long.valueOf(req.getParameter("questId"));
-        Quest quest = questService.getQuest(idQuest);
+        QuestDto quest = questService.getQuest(idQuest);
 
         session.setAttribute("currentQuest", quest);
         session.setAttribute("title", quest.getTitle());

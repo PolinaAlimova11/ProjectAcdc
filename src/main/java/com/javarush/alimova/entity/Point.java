@@ -9,21 +9,21 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
-public class Quest {
+@NoArgsConstructor
+public class Point {
+
     @Id
     private Long id;
+    @Column(name = "question", columnDefinition = "TEXT")
+    private String question;
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    @ManyToOne
+    private Quest quest;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quest_id")
-    private List<Point> pointList;
+    @JoinColumn(name = "point_id")
+    private List<Action> actionList;
 }

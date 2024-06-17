@@ -1,17 +1,19 @@
 package com.javarush.alimova.repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface Repository<T> {
 
-    List<T> getAll();
-    T create(T value);
+    Stream<T> getAll();
+    Optional<T> create(T value);
 
-    T delete(T value);
+    Optional<T> delete(T value);
 
-    T update(T value);
+    Optional<T> update(T value);
 
-    T get(Long index);
+    Optional<T> get(Long index);
 
     boolean isEmpty();
 }

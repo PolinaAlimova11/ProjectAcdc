@@ -6,24 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Quest {
+@Table(name = "step_action")
+public class StepAction {
+
     @Id
     private Long id;
-
-    @Column(name = "title")
-    private String title;
+    @Column(name = "serial_number")
+    private int serialNumber;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quest_id")
-    private List<Point> pointList;
+    @ManyToOne
+    private Action action;
+
+
 }

@@ -31,14 +31,14 @@
         <insert tableName="step_action">
             <column name="id">1</column>
             <column name="serial_number">1</column>
-            <column name="action">Отклонить вызов</column>
+            <column name="description">Отклонить вызов</column>
             <column name="action_id">1</column>
         </insert>
 
         <insert tableName="step_action">
             <column name="id">2</column>
             <column name="serial_number">2</column>
-            <column name="action">Ты отклонил вызов</column>
+            <column name="description">Ты отклонил вызов</column>
             <column name="action_id">1</column>
         </insert>
 
@@ -51,13 +51,14 @@
         <insert tableName="step_action">
             <column name="id">3</column>
             <column name="serial_number">1</column>
-            <column name="action">Принять вызов</column>
+            <column name="description">Принять вызов</column>
             <column name="action_id">2</column>
         </insert>
     </changeSet>
     
     <changeSet id="23-39-add-first-point-quest" author="alimova">
         <insert tableName="quest_first_point">
+            <column name="id">1</column>
             <column name="quest_id">1</column>
             <column name="point_id">1</column>
         </insert>
@@ -79,14 +80,14 @@
         <insert tableName="step_action">
             <column name="id">4</column>
             <column name="serial_number">1</column>
-            <column name="action">Отказаться подниматься на мостик</column>
+            <column name="description">Отказаться подниматься на мостик</column>
             <column name="action_id">3</column>
         </insert>
 
         <insert tableName="step_action">
             <column name="id">5</column>
             <column name="serial_number">2</column>
-            <column name="action">Ты не пошёл на переговоры. Поражение</column>
+            <column name="description">Ты не пошёл на переговоры. Поражение</column>
             <column name="action_id">3</column>
         </insert>
 
@@ -99,13 +100,14 @@
         <insert tableName="step_action">
             <column name="id">6</column>
             <column name="serial_number">1</column>
-            <column name="action">Подняться на мостик</column>
+            <column name="description">Подняться на мостик</column>
             <column name="action_id">4</column>
         </insert>
     </changeSet>
 
     <changeSet id="23-45-add-next-point-to-action-2" author="alimova">
         <insert tableName="point_action">
+            <column name="id">1</column>
             <column name="action_id">2</column>
             <column name="next_point_id">2</column>
         </insert>
@@ -127,14 +129,14 @@
         <insert tableName="step_action">
             <column name="id">7</column>
             <column name="serial_number">1</column>
-            <column name="action">Солгать о себе</column>
+            <column name="description">Солгать о себе</column>
             <column name="action_id">5</column>
         </insert>
 
         <insert tableName="step_action">
             <column name="id">8</column>
             <column name="serial_number">2</column>
-            <column name="action">Твою ложь разоблачили. Поражение</column>
+            <column name="description">Твою ложь разоблачили. Поражение</column>
             <column name="action_id">5</column>
         </insert>
 
@@ -147,20 +149,21 @@
         <insert tableName="step_action">
             <column name="id">9</column>
             <column name="serial_number">1</column>
-            <column name="action">Рассказать правду о себе.</column>
+            <column name="description">Рассказать правду о себе.</column>
             <column name="action_id">6</column>
         </insert>
 
         <insert tableName="step_action">
             <column name="id">10</column>
             <column name="serial_number">2</column>
-            <column name="action">Тебя вернули домой. Победа.</column>
+            <column name="description">Тебя вернули домой. Победа.</column>
             <column name="action_id">6</column>
         </insert>
     </changeSet>
 
     <changeSet id="23-51-add-next-point-to-action-4" author="alimova">
         <insert tableName="point_action">
+            <column name="id">2</column>
             <column name="action_id">4</column>
             <column name="next_point_id">3</column>
         </insert>

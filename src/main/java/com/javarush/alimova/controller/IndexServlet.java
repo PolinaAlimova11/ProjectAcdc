@@ -1,8 +1,11 @@
 package com.javarush.alimova.controller;
 
+import com.javarush.alimova.configure.ConfigurationDB;
+import com.javarush.alimova.configure.Creator;
 import com.javarush.alimova.dto.StatisticQuest;
 import com.javarush.alimova.service.impl.QuestServiceImpl;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +23,17 @@ import java.util.Map;
 public class IndexServlet extends HttpServlet {
 
     public static final Logger log = LoggerFactory.getLogger(QuestServiceImpl.class);
+    private final ConfigurationDB configurationDB = Creator.getComponent(ConfigurationDB.class);
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        try {
+            configurationDB.startInitDB();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        super.init(config);
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/index.jsp");

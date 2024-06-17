@@ -1,23 +1,20 @@
 package com.javarush.alimova.dto;
 
-import com.javarush.alimova.configure.StatusPoint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+public class QuestDto {
 
-public class ActionDto {
-
-    Long id;
-    List<String> listAction;
-    StatusPoint statusPoint;
-    Long idNextPoint;
-
+    private Long id;
+    private String title;
+    private String description;
+    private Long startIdPoint;
+//    Map<Long, PointDto> listPoint;
 }

@@ -8,6 +8,11 @@
 
     <changeSet id="23-10-add-quest-first-point-table" author="alimova">
         <createTable tableName="quest_first_point">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="quest_first_point_pkey"/>
+            </column>
             <column name="quest_id" type="BIGINT"/>
             <column name="point_id" type="BIGINT"/>
         </createTable>

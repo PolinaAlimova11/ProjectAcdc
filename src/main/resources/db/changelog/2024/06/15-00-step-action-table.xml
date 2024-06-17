@@ -14,7 +14,7 @@
                              primaryKeyName="step_action_pkey"/>
             </column>
             <column name="serial_number" type="INT"/>
-            <column name="action" type="text"/>
+            <column name="description" type="text"/>
             <column name="action_id" type="BIGINT"/>
         </createTable>
     </changeSet>
