@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "point")
 public class Point {
 
     @Id
@@ -20,7 +21,7 @@ public class Point {
     @Column(name = "question", columnDefinition = "TEXT")
     private String question;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Quest quest;
 
     @OneToMany(fetch = FetchType.LAZY)

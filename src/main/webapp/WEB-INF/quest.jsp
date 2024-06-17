@@ -34,13 +34,13 @@
         <c:forEach var = "currentAction" items = "${action.getListAction()}">
             <p>${currentAction}</p>
         </c:forEach>
-        <c:if test="${action.getStatus() == requestScope.loss}">
+        <c:if test="${action.getStatusPoint() == requestScope.loss}">
             <h4>Вы проиграли</h4>
         </c:if>
-        <c:if test="${action.getStatus() == requestScope.win}">
+        <c:if test="${action.getStatusPoint() == requestScope.win}">
             <h4>Вы выиграли</h4>
         </c:if>
-        <c:if test="${action.getStatus() == requestScope.active}">
+        <c:if test="${action.getStatusPoint() == requestScope.active}">
             <form method="post" action="game">
                 <button type="submit" name="pointId" value="${requestScope.action.getIdNextPoint()}">
                     Продолжить

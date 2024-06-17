@@ -1,7 +1,6 @@
 package com.javarush.alimova.configure;
 
-import com.javarush.alimova.entity.Action;
-import com.javarush.alimova.entity.StepAction;
+import com.javarush.alimova.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -17,6 +16,10 @@ public class SessionCreator {
         configuration.addProperties(applicationProperties);
         configuration.addAnnotatedClass(StepAction.class);
         configuration.addAnnotatedClass(Action.class);
+        configuration.addAnnotatedClass(Point.class);
+        configuration.addAnnotatedClass(Quest.class);
+        configuration.addAnnotatedClass(PointAction.class);
+        configuration.addAnnotatedClass(QuestFirstPoint.class);
         sessionFactory = configuration.buildSessionFactory();
     }
 

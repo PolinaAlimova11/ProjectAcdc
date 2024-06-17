@@ -2,7 +2,9 @@ package com.javarush.alimova.service;
 
 import com.javarush.alimova.dto.ActionDto;
 
+import java.util.Optional;
+
 public interface ActionService {
 
-    ActionDto getById(Long id);
+    Optional<ActionDto> getByIdWithStepAction(Long id);
 }

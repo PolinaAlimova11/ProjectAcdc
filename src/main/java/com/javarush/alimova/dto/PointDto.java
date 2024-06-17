@@ -14,6 +14,6 @@ import java.util.Map;
 public class PointDto {
 
     Long id;
-    String Question;
+    String question;
     Map<String, Long> listAction;
 }

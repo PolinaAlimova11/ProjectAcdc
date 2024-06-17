@@ -6,7 +6,6 @@ import com.javarush.alimova.dto.QuestDto;
 import com.javarush.alimova.service.QuestService;
 import com.javarush.alimova.service.impl.QuestServiceImpl;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,7 +28,6 @@ public class QuestMenuServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        HttpSession currentSession = req.getSession();
 
         Collection<QuestDto> quests = questService.getAll();
         req.setAttribute("quests", quests);
@@ -43,20 +41,24 @@ public class QuestMenuServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
         Long idQuest = Long.valueOf(req.getParameter("questId"));
-        QuestDto quest = questService.getQuest(idQuest);
+        Optional<QuestDto> quest = questService.getQuest(idQuest);
 
-        session.setAttribute("currentQuest", quest);
-        session.setAttribute("title", quest.getTitle());
-        session.setAttribute("description", quest.getDescription());
+        if (quest.isPresent()) {
+            QuestDto questDto = quest.get();
+            session.setAttribute("currentQuest", questDto);
+            session.setAttribute("title", questDto.getTitle());
+            session.setAttribute("description", questDto.getDescription());
 
-        log.info(String.format("Choose quest %s (id: %d)", quest.getTitle(), quest.getId()));
+            log.info(String.format("Choose quest %s (id: %d)", questDto.getTitle(), questDto.getId()));
 
-        Map<Long, StatisticQuest> statistic = (Map<Long, StatisticQuest>) session.getAttribute("statistic");
-        if(Objects.isNull(statistic.get(idQuest))) {
-            statistic.put(idQuest,
-                    new StatisticQuest(quest.getTitle(), 0, null));
+
+            Map<Long, StatisticQuest> statistic = (Map<Long, StatisticQuest>) session.getAttribute("statistic");
+            if (Objects.isNull(statistic.get(idQuest))) {
+                statistic.put(idQuest,
+                        new StatisticQuest(questDto.getTitle(), 0, null));
+            }
+            req.setAttribute("pointId", questDto.getStartIdPoint());
         }
-        req.setAttribute("pointId", quest.getStartIdPoint());
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/quest_start.jsp");
         requestDispatcher.forward(req, resp);
 

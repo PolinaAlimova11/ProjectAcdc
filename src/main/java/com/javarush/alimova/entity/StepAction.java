@@ -22,8 +22,6 @@ public class StepAction {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Action action;
-
-
 }

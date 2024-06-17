@@ -11,16 +11,17 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "point_action")
-public class PointAction {
+@Table(name = "quest_first_point")
+public class QuestFirstPoint {
 
     @Id
     private Long id;
 
     @OneToOne
-    private Action action;
+    @JoinColumn(name = "quest_id")
+    private Quest quest;
 
     @OneToOne
-    @JoinColumn(name = "next_point_id")
-    private Point nextPoint;
+    @JoinColumn(name = "point_id")
+    private Point point;
 }

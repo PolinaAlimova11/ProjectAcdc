@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "action")
 public class Action {
     @Id
     private Long id;
@@ -22,8 +23,8 @@ public class Action {
     @Column(name = "status_point")
     private StatusPoint statusPoint;
 
-//    @ManyToOne
-//    private Point point;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Point point;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "action_id")

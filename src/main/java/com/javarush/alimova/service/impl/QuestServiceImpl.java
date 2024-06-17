@@ -1,61 +1,64 @@
 package com.javarush.alimova.service.impl;
 
-import com.javarush.alimova.configure.Creator;
+import com.javarush.alimova.configure.SessionCreator;
 import com.javarush.alimova.dto.QuestDto;
-import com.javarush.alimova.repository.ActionRepository;
+import com.javarush.alimova.exception.ConnectionDBException;
+import com.javarush.alimova.mapper.MapperDto;
+import com.javarush.alimova.repository.QuestFirstPointRepository;
 import com.javarush.alimova.repository.QuestRepository;
 import com.javarush.alimova.service.QuestService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
 public class QuestServiceImpl implements QuestService {
 
-    private final QuestRepository questRepository = Creator.getComponent(QuestRepository.class);
-    private final ActionRepository actionRepository = Creator.getComponent(ActionRepository.class);
-    private final ActionServiceImpl actionService = Creator.getComponent(ActionServiceImpl.class);
+    private final QuestRepository questRepository;
+    private final SessionCreator sessionCreator;
+    private final QuestFirstPointRepository questFirstPointRepository;
 
     public static final Logger log = LoggerFactory.getLogger(QuestServiceImpl.class);
 
     @Override
-    public void initBaseQuest() {
-        if (questRepository.isEmpty()) {
-//            initQuestOne();
-//            initQuestTwo();
-        }
-    }
-
-    @Override
     public Collection<QuestDto> getAll() {
+        try(Session session = sessionCreator.getSession()) {
+            Transaction tx = session.beginTransaction();
+            try {
+                Collection<QuestDto> result = questRepository.getAll().map(MapperDto.MAPPER::from).toList();
+                tx.commit();
+                return result;
+            } catch (Exception e) {
+                tx.rollback();
+                log.error("Connection drop in method getAll");
+                throw new ConnectionDBException(e);
+            }
 
-//        return questRepository.getAll();
-        return null;
-//        return questRepository
+        }
+
     }
 
     @Override
-    public String getTitle(Long id) {
-//        return questRepository.get(id).getTitle();
-        return null;
-    }
-
-    @Override
-    public String getDescription(Long id) {
-//        return questRepository.get(id).getDescription();
-        return null;
-    }
-
-    @Override
-    public QuestDto getQuest(Long id) {
-
-//        return questRepository.get(id);
-        return null;
+    public Optional<QuestDto> getQuest(Long id) {
+        try(Session session = sessionCreator.getSession()) {
+            Transaction tx = session.beginTransaction();
+            try {
+                Long firstPointId = questFirstPointRepository.getIdFirstPointByQuest(id);
+                Optional<QuestDto> valueQuest = questRepository.get(id).map(x -> MapperDto.MAPPER.from(x, firstPointId));
+                tx.commit();
+                return valueQuest;
+            } catch (Exception e) {
+                tx.rollback();
+                log.error(String.format("Connection drop in method getQuest(id = %d)", id));
+                throw new ConnectionDBException(e);
+            }
+        }
     }
 
 //    private void initQuestOne() {
