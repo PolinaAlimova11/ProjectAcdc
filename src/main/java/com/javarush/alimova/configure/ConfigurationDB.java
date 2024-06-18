@@ -10,7 +10,7 @@ import static org.hibernate.cfg.JdbcSettings.*;
 @AllArgsConstructor
 public class ConfigurationDB {
 
-    public static final String CHANGELOG_FILE = "db/changelog.xml";
+    public static final String CHANGELOG_FILE_NAME = "CHANGELOG_FILE";
     public final ApplicationProperties properties;
     public void startInitDB() throws Exception {
         System.out.println("Running Liquibase...");
@@ -18,7 +18,7 @@ public class ConfigurationDB {
         Scope.child(Scope.Attr.resourceAccessor, new ClassLoaderResourceAccessor(), () -> {
             CommandScope update = new CommandScope("update");
 
-            update.addArgumentValue("changelogFile", CHANGELOG_FILE);
+            update.addArgumentValue("changelogFile", properties.getProperty(CHANGELOG_FILE_NAME));
             update.addArgumentValue("url", properties.getProperty(JAKARTA_JDBC_URL));
             update.addArgumentValue("username", properties.getProperty(JAKARTA_JDBC_USER));
             update.addArgumentValue("password", properties.getProperty(JAKARTA_JDBC_PASSWORD));

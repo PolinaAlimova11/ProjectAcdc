@@ -11,7 +11,7 @@ public class PointActionRepository extends BaseRepository<PointAction>{
         super(sessionCreator, PointAction.class);
     }
     public Long getIdNextPointByAction(Long id) {
-        Session session = super.getSessionCreator().getSession();
+        Session session = sessionCreator.getSession();
         Query<Long> query = session.createQuery("select pa.nextPoint.id from PointAction pa where pa.action.id = :id", Long.class);
         query.setParameter("id", id);
         return query.uniqueResult();

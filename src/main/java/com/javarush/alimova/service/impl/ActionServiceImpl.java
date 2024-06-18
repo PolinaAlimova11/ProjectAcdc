@@ -11,14 +11,14 @@ import com.javarush.alimova.repository.PointActionRepository;
 import com.javarush.alimova.repository.StepActionRepository;
 import com.javarush.alimova.service.ActionService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
+@Slf4j
 @AllArgsConstructor
 public class ActionServiceImpl implements ActionService {
 
@@ -27,31 +27,20 @@ public class ActionServiceImpl implements ActionService {
     private final PointActionRepository pointActionRepository;
     private final SessionCreator sessionCreator;
 
-    public static final Logger log = LoggerFactory.getLogger(QuestServiceImpl.class);
-
-
     @Override
     public Optional<ActionDto> getByIdWithStepAction(Long id) {
 
-        try(Session session = sessionCreator.getSession()) {
-            Transaction tx = session.beginTransaction();
-            try {
-                Optional<Action> actionOptional = actionRepository.get(id);
-                Optional<ActionDto> actionDto = Optional.empty();
-                if (actionOptional.isPresent()) {
-                    Stream<StepAction> stepActionStream = stepActionRepository.getByActionOrderBySerialNumberAsc(actionOptional.get().getId());
-                    Long nextPoint = pointActionRepository.getIdNextPointByAction(id);
-                    actionDto = actionOptional.map(x -> MapperDto.MAPPER.from(x,
-                            stepActionStream.map(StepAction::getDescription).toList(), nextPoint));
-                }
-                tx.commit();
-                return actionDto;
-            } catch (Exception e) {
-                tx.rollback();
-                log.error(String.format("Connection drop in method getByIdWithStepAction(id = %d)", id));
-                throw new ConnectionDBException(e);
-            }
-
+        sessionCreator.beginTransactional();
+        Optional<Action> actionOptional = actionRepository.get(id);
+        Optional<ActionDto> actionDto = Optional.empty();
+        if (actionOptional.isPresent()) {
+            Stream<StepAction> stepActionStream = stepActionRepository.getByActionOrderBySerialNumberAsc(actionOptional.get().getId());
+            Long nextPoint = pointActionRepository.getIdNextPointByAction(id);
+            actionDto = actionOptional.map(x -> MapperDto.MAPPER.from(x,
+                    stepActionStream.map(StepAction::getDescription).toList(), nextPoint));
         }
+        log.info(String.format("Invoke method ActionService.getByIdWithStepAction(id = %d)", id));
+        sessionCreator.endTransactional();
+        return actionDto;
     }
 }

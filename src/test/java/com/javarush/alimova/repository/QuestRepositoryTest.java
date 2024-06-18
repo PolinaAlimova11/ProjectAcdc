@@ -1,87 +1,71 @@
 package com.javarush.alimova.repository;
 
-import com.javarush.alimova.dto.QuestDto;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.javarush.alimova.ConfigurationIT;
+import com.javarush.alimova.configure.Creator;
+import com.javarush.alimova.entity.Quest;
+import org.junit.jupiter.api.*;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class QuestRepositoryTest {
+class QuestRepositoryTest extends ConfigurationIT {
 
-//    private final QuestRepository questRepository = new QuestRepository();
-//
-//    @BeforeEach
-//    void init() {
-//        questRepository.create(QuestDto.builder()
-//                .id(1L)
-//                .title("Test")
-//                .startIdPoint(1L)
-//                .description("Test description")
-//                .listPoint(new HashMap<>())
-//                .build());
-//    }
-//
-//    @Test
-//    void getAll() {
-////        List<QuestDto> listQuest = questRepository.getAll();
-//        List<QuestDto> listQuest = questRepository.getAll();
-//
-//        Assertions.assertEquals(1, listQuest.size());
-//    }
-//
-//    @Test
-//    void create() {
-//        QuestDto quest = QuestDto.builder()
-//                .id(2L)
-//                .listPoint(new HashMap<>())
-//                .description("Test2 description")
-//                .startIdPoint(2L)
-//                .title("Test2")
-//                .build();
-//
-//        QuestDto questCreate = questRepository.create(quest);
-//        Assertions.assertEquals(quest, questCreate);
-//    }
-//
-//    @Test
-//    void delete() {
-//        QuestDto quest = QuestDto.builder()
-//                .id(1L)
-//                .title("Test")
-//                .startIdPoint(1L)
-//                .description("Test description")
-//                .listPoint(new HashMap<>())
-//                .build();
-//        QuestDto questDelete = questRepository.delete(quest);
-//
-//        Assertions.assertEquals(quest, questDelete);
-//    }
-//
-//    @Test
-//    void update() {
-//        QuestDto quest = QuestDto.builder()
-//                .id(1L)
-//                .title("TestUpdate")
-//                .startIdPoint(3L)
-//                .description("Test description update")
-//                .listPoint(new HashMap<>())
-//                .build();
-//
-//        QuestDto questUpdate = questRepository.update(quest);
-//        Assertions.assertEquals(quest, questUpdate);
-//
-//    }
-//
-//    @Test
-//    void get() {
-//        QuestDto quest = questRepository.get(1L);
-//        Assertions.assertEquals(1L, quest.getId());
-//    }
-//
-//    @Test
-//    void isEmpty() {
-//        Assertions.assertEquals(false, questRepository.isEmpty());
-//    }
+    private final QuestRepository questRepository;
+    private Quest testQuest;
+
+    public QuestRepositoryTest() {
+        questRepository = Creator.getComponent(QuestRepository.class);
+    }
+
+    @BeforeEach
+    void init() {
+        sessionCreator.beginTransactional();
+        testQuest = Quest.builder()
+                .id(1L)
+                .title("TestTitle")
+                .description("TestDescription")
+                .pointList(Collections.emptyList())
+                .build();
+        questRepository.create(testQuest);
+    }
+
+    @Test
+    void getAll() {
+        List<Quest> questStream = questRepository.getAll().toList();
+        assertEquals(1, questStream.size());
+    }
+
+    @Test
+    void get() {
+        Optional<Quest> actual = questRepository.get(testQuest.getId());
+        actual.ifPresent(quest -> assertEquals(testQuest, quest));
+    }
+
+    @Test
+    void update() {
+        sessionCreator.endTransactional();
+        sessionCreator.beginTransactional();
+
+        testQuest.setTitle("updateTitle");
+        questRepository.update(testQuest);
+        Optional<Quest> actual = questRepository.get(testQuest.getId());
+        actual.ifPresent(quest -> assertEquals(testQuest, quest));
+    }
+
+    @Test
+    void delete() {
+        sessionCreator.endTransactional();
+        sessionCreator.beginTransactional();
+
+        questRepository.delete(testQuest);
+        assertEquals(true, questRepository.isEmpty());
+    }
+
+    @AfterEach
+    void clear() {
+        questRepository.delete(testQuest);
+        sessionCreator.endTransactional();
+    }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <include file="/db/changelog/2024/06/15-00-step-action-table.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/06/15-01-action-table.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/06/15-03-point-table.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/06/15-04-quest-table.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/06/15-05-point-action-table.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/06/15-06-quest-first-point-table.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/06/15-07-statistic-table.xml" relativeToChangelogFile="false"/>
+
+<!--    <include file="/db/changelog/2024/06/15-08-insert-alien-quest.xml" relativeToChangelogFile="false"/>-->
+</databaseChangeLog>

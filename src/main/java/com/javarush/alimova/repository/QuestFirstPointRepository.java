@@ -11,7 +11,7 @@ public class QuestFirstPointRepository extends BaseRepository<QuestFirstPoint> {
     }
 
     public Long getIdFirstPointByQuest(Long id) {
-        Session session = super.getSessionCreator().getSession();
+        Session session = sessionCreator.getSession();
         Query<Long> query = session.createQuery("select qp.point.id from QuestFirstPoint qp where qp.quest.id = :id", Long.class);
         query.setParameter("id", id);
         return query.uniqueResult();
