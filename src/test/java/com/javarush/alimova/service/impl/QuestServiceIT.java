@@ -17,23 +17,21 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class QuestServiceImplIT extends ConfigurationIT {
+public class QuestServiceIT extends ConfigurationIT {
 
     private final QuestRepository questRepository;
     private final ActionRepository actionRepository;
     private final QuestFirstPointRepository questFirstPointRepository;
     private final StepActionRepository stepActionRepository;
     private final PointRepository pointRepository;
-
     private final QuestService questService;
-
     private Quest testQuest;
     private Point testPoint;
     private QuestFirstPoint testQuestFirstPoint;
     private Action testAction;
     private StepAction testStepAction;
 
-    public QuestServiceImplIT() {
+    public QuestServiceIT() {
         questRepository = Creator.getComponent(QuestRepository.class);
         actionRepository = Creator.getComponent(ActionRepository.class);
         questFirstPointRepository = Creator.getComponent(QuestFirstPointRepository.class);
