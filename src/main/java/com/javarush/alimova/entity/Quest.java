@@ -22,7 +22,7 @@ public class Quest {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "quest_id")
     private List<Point> pointList;
 }

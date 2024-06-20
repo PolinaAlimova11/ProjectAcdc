@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class QuestRepositoryTest extends ConfigurationIT {
+public class QuestRepositoryIT extends ConfigurationIT {
 
     private final QuestRepository questRepository;
     private Quest testQuest;
 
-    public QuestRepositoryTest() {
+    public QuestRepositoryIT() {
         questRepository = Creator.getComponent(QuestRepository.class);
     }
 
@@ -45,9 +45,7 @@ class QuestRepositoryTest extends ConfigurationIT {
 
     @Test
     void update() {
-        sessionCreator.endTransactional();
-        sessionCreator.beginTransactional();
-
+        sessionCreator.getSession().flush();
         testQuest.setTitle("updateTitle");
         questRepository.update(testQuest);
         Optional<Quest> actual = questRepository.get(testQuest.getId());

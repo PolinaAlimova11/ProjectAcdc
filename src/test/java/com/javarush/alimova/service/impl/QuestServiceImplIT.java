@@ -3,18 +3,21 @@ package com.javarush.alimova.service.impl;
 import com.javarush.alimova.ConfigurationIT;
 import com.javarush.alimova.configure.Creator;
 import com.javarush.alimova.configure.StatusPoint;
+import com.javarush.alimova.dto.QuestDto;
 import com.javarush.alimova.entity.*;
+import com.javarush.alimova.mapper.MapperDto;
 import com.javarush.alimova.repository.*;
 import com.javarush.alimova.service.QuestService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QuestServiceImplTest extends ConfigurationIT {
+public class QuestServiceImplIT extends ConfigurationIT {
 
     private final QuestRepository questRepository;
     private final ActionRepository actionRepository;
@@ -30,7 +33,7 @@ class QuestServiceImplTest extends ConfigurationIT {
     private Action testAction;
     private StepAction testStepAction;
 
-    public QuestServiceImplTest() {
+    public QuestServiceImplIT() {
         questRepository = Creator.getComponent(QuestRepository.class);
         actionRepository = Creator.getComponent(ActionRepository.class);
         questFirstPointRepository = Creator.getComponent(QuestFirstPointRepository.class);
@@ -41,12 +44,11 @@ class QuestServiceImplTest extends ConfigurationIT {
 
     @BeforeEach
     void setUp() {
-        initTestQuest();
         sessionCreator.beginTransactional();
+        initTestQuest();
     }
 
     void initTestQuest() {
-        sessionCreator.beginTransactional();
         testStepAction = StepAction.builder()
                 .id(1L)
                 .description("testStepAction")
@@ -55,56 +57,55 @@ class QuestServiceImplTest extends ConfigurationIT {
         testAction = Action.builder()
                 .id(1L)
                 .statusPoint(StatusPoint.ACTIVE)
-                .stepActionList(List.of(testStepAction))
                 .build();
-        testStepAction.setAction(testAction);
         testPoint = Point.builder()
                 .id(1L)
                 .question("testPoint")
-                .actionList(List.of(testAction))
                 .build();
-        testAction.setPoint(testPoint);
         testQuest = Quest.builder()
                 .id(1L)
                 .description("descriptionTest")
-                .pointList(List.of(testPoint))
                 .title("title")
                 .build();
+
+        questRepository.create(testQuest);
+        pointRepository.create(testPoint);
+        actionRepository.create(testAction);
+        stepActionRepository.create(testStepAction);
+        sessionCreator.getSession().flush();
+
+        testStepAction.setAction(testAction);
+        testAction.setStepActionList(List.of(testStepAction));
+        testAction.setPoint(testPoint);
+        testPoint.setActionList(List.of(testAction));
         testPoint.setQuest(testQuest);
+        testQuest.setPointList(List.of(testPoint));
         testQuestFirstPoint = QuestFirstPoint.builder()
                 .quest(testQuest)
                 .id(1L)
                 .point(testPoint)
                 .build();
-
-//        questRepository.create(testQuest);
-//        questFirstPointRepository.create(testQuestFirstPoint);
-//        pointRepository.create(testPoint);
-//        actionRepository.create(testAction);
-        stepActionRepository.create(testStepAction);
-        //todo сначала делаем сущности, потом сбрасываем и добавляем связи
-
-        sessionCreator.endTransactional();
+        questFirstPointRepository.create(testQuestFirstPoint);
+        sessionCreator.getSession().flush();
     }
 
     @AfterEach
     void tearDown() {
+        questRepository.delete(testQuest);
         sessionCreator.endTransactional();
     }
 
-//    @Test
-//    void getAll() {
-//    }
-//
-//    @Test
-//    void getQuest() {
-//    }
-//
-//    @Test
-//    void getQuestFirstPointRepository() {
-//    }
     @Test
-    void test() {
-        assertEquals(true, true);
+    void getAll() {
+        Collection<QuestDto> questDtoList = questService.getAll();
+        assertEquals(1, questDtoList.size());
+    }
+
+    @Test
+    void getQuest() {
+        QuestDto actualQuest = questService.getQuest(testQuest.getId()).orElseThrow();
+        QuestDto expectedQuest = MapperDto.MAPPER.from(testQuest, testQuestFirstPoint.getPoint().getId());
+
+        assertEquals(expectedQuest, actualQuest);
     }
 }

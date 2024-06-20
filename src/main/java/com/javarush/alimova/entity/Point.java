@@ -22,7 +22,7 @@ public class Point {
     @ManyToOne(fetch = FetchType.LAZY)
     private Quest quest;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "point_id")
     private List<Action> actionList;
 }

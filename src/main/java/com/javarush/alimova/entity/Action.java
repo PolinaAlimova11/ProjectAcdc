@@ -24,7 +24,7 @@ public class Action {
     @ManyToOne(fetch = FetchType.LAZY)
     private Point point;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "action_id")
     private List<StepAction> stepActionList;
 
